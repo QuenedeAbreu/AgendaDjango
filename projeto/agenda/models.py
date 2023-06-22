@@ -1,0 +1,55 @@
+from django.db import models
+from django.utils.dateformat import DateFormat
+from django.contrib.auth.models import User
+
+# Create your models here.
+
+
+def Format_Date(date):
+    return DateFormat(date).format('d/m/Y')
+
+
+class Local(models.Model):
+    nome = models.CharField(max_length=255)
+    rua = models.CharField(max_length=255, null=True, blank=True)
+    numero = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.nome} na rua {self.rua}'
+
+    class Meta:
+        verbose_name_plural = "Locais"
+
+
+class Convidado(models.Model):
+    nome = models.CharField(max_length=255)
+    email = models.EmailField(null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.nome} - {self.email}'
+
+
+class Compromisso(models.Model):
+    descricao = models.CharField(max_length=255)
+    data_inicio = models.DateField()
+    data_fim = models.DateField()
+    local = models.ForeignKey(Local, on_delete=models.CASCADE)
+    Convidados = models.ManyToManyField(Convidado)
+
+    def __str__(self):
+
+        return f'{self.descricao} começa : {Format_Date(self.data_inicio)} - {Format_Date(self.data_fim)}'
+
+
+class Anotacao_Compromisso(models.Model):
+    compromisso = models.ForeignKey(Compromisso, on_delete=models.CASCADE)
+    descricao = models.TextField(max_length=255)
+    data = models.DateField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.descricao} - {Format_Date(self.data)} - {self.user.username}'
+
+    class Meta:
+        verbose_name_plural = "Anotações nos Compromissos"
