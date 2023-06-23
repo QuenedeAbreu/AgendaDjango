@@ -1,9 +1,6 @@
 from django.db import models
 from django.utils.dateformat import DateFormat
 from django.contrib.auth.models import User
-# from django.contrib.auth import get_user_model
-
-# Create your models here.
 
 
 def Format_Date(date):
@@ -39,7 +36,6 @@ class Compromisso(models.Model):
     Convidados = models.ManyToManyField(Convidado)
 
     def __str__(self):
-
         return f'{self.descricao} começa : {Format_Date(self.data_inicio)} - {Format_Date(self.data_fim)}'
 
 
@@ -52,7 +48,7 @@ class Anotacao_Compromisso(models.Model):
         null=True, blank=True)
 
     def __str__(self):
-        return f'{self.descricao} - {Format_Date(self.data)} - {self.user}'
+        return f'{self.compromisso} - {self.descricao} - {Format_Date(self.data)} - {self.user}'
 
     def save_model(self, request, obj, form, change):
         if not change:

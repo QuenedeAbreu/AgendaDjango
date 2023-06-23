@@ -10,13 +10,18 @@ class ConvidadosInline(admin.TabularInline):
     model = Compromisso.Convidados.through
 
 
+class Anotacao_CompromissoInline(admin.TabularInline):
+    model = Anotacao_Compromisso
+    extra = 1
+
+
 class ConvidadoAdmin(admin.ModelAdmin):
     inlines = [ConvidadosInline,]
 
 
 class CompromissoAdmin(admin.ModelAdmin):
     exclude = ['Convidados']
-    inlines = [ConvidadosInline]
+    inlines = [ConvidadosInline, Anotacao_CompromissoInline]
 
 
 class Anotacao_CompromissoAdmin(admin.ModelAdmin):

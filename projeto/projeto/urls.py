@@ -19,6 +19,7 @@ from django.urls import path, include
 from rest_framework import routers
 from agenda.views import UserViewSet, GroupViweSet, LocalViweSet, ConvidadoViweSet, CompromissoViweSet, Anotacao_CompromissoViweSet
 
+
 router = routers.DefaultRouter()
 router.register('users', UserViewSet)
 router.register('groups', GroupViweSet)
@@ -31,5 +32,5 @@ urlpatterns = [
     path('', include('agenda.urls')),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
 ]
