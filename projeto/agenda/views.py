@@ -2,7 +2,6 @@ from django.shortcuts import render
 from rest_framework import viewsets, permissions
 from django.contrib.auth.models import User, Group
 from agenda.models import Local, Convidado, Compromisso, Anotacao_Compromisso
-
 from agenda.serializers import UserSerializer, GroupSerializer, LocalSerializer, CompromissoSerializer, ConvidadoSerializer, Anotacao_CompromissoSerializer
 
 
