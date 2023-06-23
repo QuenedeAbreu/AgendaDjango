@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User, Group
-from agenda.models import Local, Convidado, Compromisso
+from agenda.models import Local, Convidado, Compromisso, Anotacao_Compromisso
 from rest_framework import serializers
 
 # Compromisso -----
@@ -27,20 +27,44 @@ class CompromissoSerializer(serializers.HyperlinkedModelSerializer):
                   'data_fim', 'local', 'Convidados']
 
 
-class ConvidadoSerializer(serializers.HyperlinkedModelSerializer):
-    compromisso_set = CompromissoSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Convidado
-        fields = ['id', 'url', 'nome', 'email', 'compromisso_set']
-
-
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'url', 'username', 'email', 'groups']
 
 
+class ConvidadoSerializer(serializers.HyperlinkedModelSerializer):
+    compromisso_set = CompromissoSerializer(many=True, read_only=True)
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Convidado
+        fields = ['id', 'url', 'nome', 'email', 'compromisso_set', 'user']
+
+
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
-    model = Group
-    fields = ['url', 'name']
+    class Meta:
+        model = Group
+        fields = ['url', 'name']
+
+
+class UserAnotacaoSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'url', 'username', 'email']
+
+
+class CompromissoAnotacaoSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Compromisso
+        fields = ['id', 'url', 'descricao', 'data_inicio',
+                  'data_fim']
+
+
+class Anotacao_CompromissoSerializer(serializers.HyperlinkedModelSerializer):
+    compromisso = CompromissoAnotacaoSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Anotacao_Compromisso
+        fields = ['id', 'url', 'compromisso', 'descricao', 'data', 'user']

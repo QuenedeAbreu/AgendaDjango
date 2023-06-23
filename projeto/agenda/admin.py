@@ -20,6 +20,11 @@ class CompromissoAdmin(admin.ModelAdmin):
 
 
 class Anotacao_CompromissoAdmin(admin.ModelAdmin):
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        if not request.user.is_superuser:
+            queryset = queryset.filter(user=request.user)
+        return queryset
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'compromisso':
@@ -29,10 +34,10 @@ class Anotacao_CompromissoAdmin(admin.ModelAdmin):
                     Convidados=Usuario[0])
 
         if db_field.name == 'user':
-            kwargs['initial'] = User.objects.filter(id=request.user.id)
             if not request.user.is_superuser:
-                kwargs['disabled'] = 'disabled'
                 kwargs['queryset'] = User.objects.filter(id=request.user.id)
+                kwargs['initial'] = request.user.id
+                kwargs['disabled'] = 'disabled'
 
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 

@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.dateformat import DateFormat
 from django.contrib.auth.models import User
+# from django.contrib.auth import get_user_model
 
 # Create your models here.
 
@@ -46,10 +47,19 @@ class Anotacao_Compromisso(models.Model):
     compromisso = models.ForeignKey(Compromisso, on_delete=models.CASCADE)
     descricao = models.TextField(max_length=255)
     data = models.DateField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE,
+        null=True, blank=True)
 
     def __str__(self):
-        return f'{self.descricao} - {Format_Date(self.data)} - {self.user.username}'
+        return f'{self.descricao} - {Format_Date(self.data)} - {self.user}'
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.user = request.user
+            obj.save()
+        super(Anotacao_Compromisso, self).save_model(
+            request, obj, form, change)
 
     class Meta:
         verbose_name_plural = "Anotações nos Compromissos"

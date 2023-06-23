@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from rest_framework import viewsets, permissions
 from django.contrib.auth.models import User, Group
-from agenda.models import Local, Convidado, Compromisso
+from agenda.models import Local, Convidado, Compromisso, Anotacao_Compromisso
 
-from agenda.serializers import UserSerializer, GroupSerializer, LocalSerializer, CompromissoSerializer, ConvidadoSerializer
+from agenda.serializers import UserSerializer, GroupSerializer, LocalSerializer, CompromissoSerializer, ConvidadoSerializer, Anotacao_CompromissoSerializer
 
 
 def index_view_app(request):
@@ -37,4 +37,10 @@ class ConvidadoViweSet(viewsets.ModelViewSet):
 class CompromissoViweSet(viewsets.ModelViewSet):
     queryset = Compromisso.objects.all()
     serializer_class = CompromissoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class Anotacao_CompromissoViweSet(viewsets.ModelViewSet):
+    queryset = Anotacao_Compromisso.objects.all()
+    serializer_class = Anotacao_CompromissoSerializer
     permission_classes = [permissions.IsAuthenticated]

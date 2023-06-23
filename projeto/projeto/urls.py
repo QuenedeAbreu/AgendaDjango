@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from agenda.views import UserViewSet, GroupViweSet, LocalViweSet, ConvidadoViweSet, CompromissoViweSet
+from agenda.views import UserViewSet, GroupViweSet, LocalViweSet, ConvidadoViweSet, CompromissoViweSet, Anotacao_CompromissoViweSet
 
 router = routers.DefaultRouter()
 router.register('users', UserViewSet)
@@ -25,6 +25,7 @@ router.register('groups', GroupViweSet)
 router.register('local', LocalViweSet)
 router.register('convidado', ConvidadoViweSet)
 router.register('compromisso', CompromissoViweSet)
+router.register('Anotacao_Compromisso', Anotacao_CompromissoViweSet)
 
 urlpatterns = [
     path('', include('agenda.urls')),
