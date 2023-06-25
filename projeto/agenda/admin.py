@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
+from django.utils.html import format_html, format_html_join
 from agenda.models import Compromisso, Local, Convidado, Anotacao_Compromisso
 
 
@@ -25,11 +26,28 @@ class CompromissoAdmin(admin.ModelAdmin):
 
 
 class Anotacao_CompromissoAdmin(admin.ModelAdmin):
-    def get_queryset(self, request):
-        queryset = super().get_queryset(request)
-        if not request.user.is_superuser:
-            queryset = queryset.filter(user=request.user)
-        return queryset
+    # Campos a serem exibidos na listagem
+    list_display = ['get_descricao', 'data', 'compromisso', 'get_usuario']
+    list_filter = ['descricao', 'data', 'compromisso', 'user']  #
+    # change_list_template = 'change_list.html'
+    search_fields = ['descricao', 'data']
+
+    def get_descricao(self, obj):
+        return obj.descricao
+    get_descricao.admin_order_field = 'descricao'
+    get_descricao.short_description = 'Descrição'
+
+    def get_usuario(self, obj):
+        return obj.descricao
+    get_usuario.admin_order_field = 'user'
+    get_usuario.short_description = 'Usuário'
+
+    # list_display = ['__str__', 'botao_excluir']
+    # def botao_excluir(self, obj):
+    #     delete_url = f'/admin/agenda/anotacao_compromisso/{obj.id}/delete/'
+    #     editar_url = f'/admin/agenda/anotacao_compromisso/{obj.id}/chage/'
+    #     return format_html('<a href="{}" class="button-delete ">Excluir</a> <a href="{}" class="button">Editar</a>', delete_url, editar_url)
+    # botao_excluir.short_description = 'Ações'
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'compromisso':

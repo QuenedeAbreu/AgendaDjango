@@ -43,7 +43,7 @@ class Anotacao_Compromisso(models.Model):
     compromisso = models.ForeignKey(Compromisso, on_delete=models.CASCADE)
     descricao = models.TextField(max_length=255)
     data = models.DateField()
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         User, on_delete=models.CASCADE,
         null=True, blank=True)
 
