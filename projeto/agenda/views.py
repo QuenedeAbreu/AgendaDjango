@@ -1,45 +1,15 @@
-from django.shortcuts import render
-from rest_framework import viewsets, permissions
-from django.contrib.auth.models import User, Group
-from agenda.models import Local, Convidado, Compromisso, Anotacao_Compromisso
-from agenda.serializers import UserSerializer, GroupSerializer, LocalSerializer, CompromissoSerializer, ConvidadoSerializer, Anotacao_CompromissoSerializer
-
-
-def index_view_app(request):
-    return render(request, 'index.html')
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class GroupViweSet(viewsets.ModelViewSet):
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class LocalViweSet(viewsets.ModelViewSet):
-    queryset = Local.objects.all()
-    serializer_class = LocalSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class ConvidadoViweSet(viewsets.ModelViewSet):
-    queryset = Convidado.objects.all()
-    serializer_class = ConvidadoSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class CompromissoViweSet(viewsets.ModelViewSet):
-    queryset = Compromisso.objects.all()
-    serializer_class = CompromissoSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class Anotacao_CompromissoViweSet(viewsets.ModelViewSet):
-    queryset = Anotacao_Compromisso.objects.all()
-    serializer_class = Anotacao_CompromissoSerializer
-    permission_classes = [permissions.IsAuthenticated]
+from django.http import HttpResponse
+from .models import Local
+from django.template import loader
+def lista_locais(request):
+  locais = Local.objects.all()
+  teste = request.user 
+  if  request.user == 'AnonymousUser':
+    teste = 'Não logado'
+    
+  context = {
+    'locais':locais,
+    'usuario':teste 
+  }
+  template = loader.get_template('locais.html')
+  return HttpResponse(template.render(context,request))

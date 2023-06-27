@@ -8,7 +8,7 @@ from rest_framework import serializers
 class LocalSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Local
-        fields = ['id', 'url', 'nome', 'rua', 'numero']
+        fields = ['id', 'url', 'nome', 'rua', 'numero','foto']
 
 
 class Convidado_Edit_Serializer(serializers.HyperlinkedModelSerializer):
@@ -27,7 +27,7 @@ class Compromisso_Edit_Serializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Compromisso
         fields = ['id', 'url', 'descricao', 'data_inicio',
-                  'data_fim']
+                  'data_fim','registro']
 
 
 class Anotacao_CompromissoSerializer(serializers.HyperlinkedModelSerializer):
@@ -54,7 +54,7 @@ class CompromissoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Compromisso
         fields = ['id', 'url', 'descricao', 'data_inicio',
-                  'data_fim', 'local', 'Convidados', 'anotacao_compromisso_set']
+                  'data_fim', 'local', 'Convidados', 'anotacao_compromisso_set','registro']
 
 
 class ConvidadoSerializer(serializers.HyperlinkedModelSerializer):

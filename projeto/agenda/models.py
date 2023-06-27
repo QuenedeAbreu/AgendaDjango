@@ -11,6 +11,7 @@ class Local(models.Model):
     nome = models.CharField(max_length=255)
     rua = models.CharField(max_length=255, null=True, blank=True)
     numero = models.IntegerField(null=True, blank=True)
+    foto = models.ImageField(upload_to='ft_locais', null=True,blank=True)
 
     def __str__(self):
         return f'{self.nome} na rua {self.rua}'
@@ -34,6 +35,7 @@ class Compromisso(models.Model):
     data_fim = models.DateField()
     local = models.ForeignKey(Local, on_delete=models.CASCADE)
     Convidados = models.ManyToManyField(Convidado)
+    registro = models.FileField(upload_to='arquivos', null = True, blank= True)
 
     def __str__(self):
         return f'{self.descricao} começa : {Format_Date(self.data_inicio)} - {Format_Date(self.data_fim)}'

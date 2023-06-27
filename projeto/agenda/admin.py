@@ -52,9 +52,9 @@ class Anotacao_CompromissoAdmin(admin.ModelAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'compromisso':
             if not request.user.is_superuser:
-                Usuario = Convidado.objects.filter(user=request.user)
+                Usuario = Convidado.objects.get(user=request.user)
                 kwargs['queryset'] = Compromisso.objects.filter(
-                    Convidados=Usuario[0])
+                    Convidados=Usuario)
 
         if db_field.name == 'user':
             if not request.user.is_superuser:
