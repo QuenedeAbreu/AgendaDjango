@@ -11,7 +11,7 @@ class Local(models.Model):
     nome = models.CharField(max_length=255)
     rua = models.CharField(max_length=255, null=True, blank=True)
     numero = models.IntegerField(null=True, blank=True)
-    foto = models.ImageField(upload_to='ft_locais', null=True,blank=True)
+    foto = models.ImageField(upload_to='ft_locais', null=True, blank=True)
 
     def __str__(self):
         return f'{self.nome} na rua {self.rua}'
@@ -28,17 +28,24 @@ class Convidado(models.Model):
     def __str__(self):
         return f'{self.nome} - {self.email}'
 
+    class Meta:
+        verbose_name_plural = "Convidados"
+
 
 class Compromisso(models.Model):
     descricao = models.CharField(max_length=255)
     data_inicio = models.DateField()
     data_fim = models.DateField()
-    local = models.ForeignKey(Local, on_delete=models.CASCADE)
-    Convidados = models.ManyToManyField(Convidado)
-    registro = models.FileField(upload_to='arquivos', null = True, blank= True)
+    local = models.ForeignKey(
+        Local, related_name="Local", on_delete=models.CASCADE)
+    Convidados = models.ManyToManyField(Convidado, related_name="Convidados")
+    registro = models.FileField(upload_to='arquivos', null=True, blank=True)
 
     def __str__(self):
         return f'{self.descricao} começa : {Format_Date(self.data_inicio)} - {Format_Date(self.data_fim)}'
+
+    class Meta:
+        verbose_name_plural = "Compromissos"
 
 
 class Anotacao_Compromisso(models.Model):

@@ -7,8 +7,14 @@ from agenda.models import Compromisso, Local, Convidado, Anotacao_Compromisso
 # Register your models here.
 
 
-class ConvidadosInline(admin.TabularInline):
+class CompormissoConvidadosInline(admin.TabularInline):
     model = Compromisso.Convidados.through
+    verbose_name_plural = ' ---------------------------- Compromissos ----------------------------'
+
+
+class ConvidadosCompromissosInline(admin.TabularInline):
+    model = Compromisso.Convidados.through
+    verbose_name_plural = '---------------------------- Convidados ----------------------------'
 
 
 class Anotacao_CompromissoInline(admin.TabularInline):
@@ -17,12 +23,13 @@ class Anotacao_CompromissoInline(admin.TabularInline):
 
 
 class ConvidadoAdmin(admin.ModelAdmin):
-    inlines = [ConvidadosInline,]
+    inlines = [CompormissoConvidadosInline,]
+    extra = 1
 
 
 class CompromissoAdmin(admin.ModelAdmin):
     exclude = ['Convidados']
-    inlines = [ConvidadosInline, Anotacao_CompromissoInline]
+    inlines = [ConvidadosCompromissosInline, Anotacao_CompromissoInline]
 
 
 class Anotacao_CompromissoAdmin(admin.ModelAdmin):
