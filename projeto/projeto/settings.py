@@ -78,6 +78,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'projeto.wsgi.application'
 CORS_ORIGIN_WHITELIST = ('http://127.0.0.1:5500',)
+# CORS_ORIGIN_ALLOW_ALL = True
+# ALLOWED_HOSTS = ['*']
+# when using other websites that track visitors or use their iframe on your website.
+# SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+# Necessary to show Iframe from your own server (such as PDFs on your website)
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -195,8 +201,9 @@ JAZZMIN_SETTINGS = {
             "permissions": ["auth.view_user"]},
 
         # external url that opens in a new window (Permissions can be added)
-        {"name": "Suporte", "url": "https://quenedeabreu.com.br/",
-            "new_window": True},
+        {"name": "Suporte",
+         "url": "https://quenedeabreu.com.br/",
+         "new_window": True},
 
         # model admin to link to (Permissions checked against model)
         # {"model": "auth.User"},
@@ -211,8 +218,10 @@ JAZZMIN_SETTINGS = {
 
     # Additional links to include in the user menu on the top right ("app" url type is not allowed)
     "usermenu_links": [
-        {"name": "Suporte", "url": "https://quenedeabreu.com.br/",
-            "new_window": True},
+        {"name": "Suporte",
+         "icon": "fas fa-headset",
+         "url": "https://quenedeabreu.com.br/",
+         "new_window": True},
         {"model": "auth.user"}
     ],
 
@@ -286,9 +295,9 @@ JAZZMIN_SETTINGS = {
     # - vertical_tabs
     # - collapsible
     # - carousel
-    "changeform_format": "vertical_tabs",
+    "changeform_format": "horizontal_tabs",
     # override change forms on a per modeladmin basis
-    "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
+    # "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
     # Add a language dropdown into the admin
     "language_chooser": False,
 }
