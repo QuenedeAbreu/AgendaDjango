@@ -9,12 +9,12 @@ from agenda.models import Compromisso, Local, Convidado, Anotacao_Compromisso
 
 class CompormissoConvidadosInline(admin.TabularInline):
     model = Compromisso.Convidados.through
-    verbose_name_plural = ' ---------------------------- Compromissos ----------------------------'
+    verbose_name_plural = ' Compromissos'
 
 
 class ConvidadosCompromissosInline(admin.TabularInline):
     model = Compromisso.Convidados.through
-    verbose_name_plural = '---------------------------- Convidados ----------------------------'
+    verbose_name_plural = 'Convidados '
 
 
 class Anotacao_CompromissoInline(admin.TabularInline):

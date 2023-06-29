@@ -156,7 +156,7 @@ JAZZMIN_SETTINGS = {
     "site_brand": "Agenda UFAC",
 
     # Logo to use for your site, must be present in static files, used for brand on top left
-    "site_logo": "../../media/ft_locais/logo.svg",
+    "site_logo": "../../media/ft_locais/logo.png",
 
     # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
     "login_logo": None,
@@ -286,7 +286,7 @@ JAZZMIN_SETTINGS = {
     # - vertical_tabs
     # - collapsible
     # - carousel
-    "changeform_format": "single",
+    "changeform_format": "vertical_tabs",
     # override change forms on a per modeladmin basis
     "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
     # Add a language dropdown into the admin
