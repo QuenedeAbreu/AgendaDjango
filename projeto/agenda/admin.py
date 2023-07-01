@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin
 from django.utils.html import format_html, format_html_join
-from agenda.models import Compromisso, Local, Convidado, Anotacao_Compromisso
+from agenda.models import Compromisso, Local, Convidado, Anotacao_Compromisso, UserProfile
 
 
 # Register your models here.
@@ -30,6 +31,15 @@ class ConvidadoAdmin(admin.ModelAdmin):
 class CompromissoAdmin(admin.ModelAdmin):
     exclude = ['Convidados']
     inlines = [ConvidadosCompromissosInline, Anotacao_CompromissoInline]
+
+
+class UserProfileInline(admin.StackedInline):
+    model = UserProfile
+    can_delete = False
+
+
+class CustomUserAdmin(UserAdmin):
+    inlines = (UserProfileInline,)
 
 
 class Anotacao_CompromissoAdmin(admin.ModelAdmin):

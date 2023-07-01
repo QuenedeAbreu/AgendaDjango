@@ -7,6 +7,15 @@ def Format_Date(date):
     return DateFormat(date).format('d/m/Y')
 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(
+        upload_to='ft_profiles/', blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
+
+
 class Local(models.Model):
     nome = models.CharField(max_length=255)
     rua = models.CharField(max_length=255, null=True, blank=True)
