@@ -36,6 +36,7 @@ class CompromissoAdmin(admin.ModelAdmin):
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
     can_delete = False
+    verbose_name_plural = ' Foto de Perfil'
 
 
 class CustomUserAdmin(UserAdmin):
@@ -82,6 +83,8 @@ class Anotacao_CompromissoAdmin(admin.ModelAdmin):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
+admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)
 admin.site.register(Compromisso, CompromissoAdmin)
 admin.site.register(Local)
 admin.site.register(Convidado, ConvidadoAdmin)
