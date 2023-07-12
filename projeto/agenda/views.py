@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from .models import Local
 from django.template import loader
+from django.contrib.auth.models import Permission
+
 def lista_locais(request):
   locais = Local.objects.all()
   teste = request.user 
@@ -11,5 +13,6 @@ def lista_locais(request):
     'locais':locais,
     'usuario':teste 
   }
+    
   template = loader.get_template('locais.html')
   return HttpResponse(template.render(context,request))

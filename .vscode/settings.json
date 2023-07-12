@@ -6,6 +6,6 @@
   "python.analysis.extraPaths": [
     "./projeto/projeto",
     "./projeto/projeto",
-    "./projeto/agenda"
+    "./projeto"
   ]
 }

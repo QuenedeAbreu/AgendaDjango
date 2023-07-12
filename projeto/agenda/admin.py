@@ -1,11 +1,16 @@
 from django.contrib import admin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Permission
 from django.contrib.auth.admin import UserAdmin
-from django.utils.html import format_html, format_html_join
-from agenda.models import Compromisso, Local, Convidado, Anotacao_Compromisso, UserProfile
+# from django.utils.html import format_html, format_html_join
+from agenda.models import Compromisso, Local, Convidado, Anotacao_Compromisso, User_profile
 
 
 # Register your models here.
+
+class UserProfileInline(admin.StackedInline):
+    model = User_profile
+    can_delete = False
+    verbose_name_plural = 'Perfil'
 
 
 class CompormissoConvidadosInline(admin.TabularInline):
@@ -21,6 +26,7 @@ class ConvidadosCompromissosInline(admin.TabularInline):
 class Anotacao_CompromissoInline(admin.TabularInline):
     model = Anotacao_Compromisso
     extra = 1
+    verbose_name_plural = 'Anotacao Compromisso'
 
 
 class ConvidadoAdmin(admin.ModelAdmin):
@@ -33,14 +39,9 @@ class CompromissoAdmin(admin.ModelAdmin):
     inlines = [ConvidadosCompromissosInline, Anotacao_CompromissoInline]
 
 
-class UserProfileInline(admin.StackedInline):
-    model = UserProfile
-    can_delete = False
-    verbose_name_plural = ' Foto de Perfil'
-
-
 class CustomUserAdmin(UserAdmin):
     inlines = (UserProfileInline,)
+
 
 
 class Anotacao_CompromissoAdmin(admin.ModelAdmin):
@@ -82,10 +83,58 @@ class Anotacao_CompromissoAdmin(admin.ModelAdmin):
 
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
+def traduzir_permissoes(modeladmin, request, queryset):
+    
+  words = ["Can", "add", "change", "delete", "view","group","entry","permission","user","content","type","session","Pode_"]
+  # Um dicionário com as palavras em inglês e suas traduções em português
+  translations = {
+  "Can": "Pode",
+  "add": "adicionar",
+  "change": "alterar",
+  "delete": "excluir",
+  "view": "visualizar",
+  "group": "grupo",
+  "entry": "entrada",
+  "permission": "permissao",
+  "user": "usuario",
+  "content": "conteudo",
+  "type": "tipo",
+  "session": "sessao",
+  "Pode_":"Pode"
+  }
+  
+    # Obtém todas as permissões do banco de dados
+  permissions = Permission.objects.all()
 
-admin.site.unregister(User)
-admin.site.register(User, CustomUserAdmin)
+    # Para cada permissão, separa o nome em palavras
+  for perm in permissions:
+    permission_words = perm.name.split()
+
+    # Para cada palavra da permissão, verifica se ela está no array de palavras
+    for word in permission_words:
+      if word in words:
+    # Se estiver, substitui pela tradução correspondente no dicionário
+        index = permission_words.index(word)
+        permission_words[index] = translations[word]
+
+    # Junta as palavras traduzidas em uma string
+    translated_name = " ".join(permission_words)
+
+    # Atribui o nome traduzido à permissão
+    perm.name = translated_name
+
+    # Salva a permissão traduzida no banco de dados
+    perm.save()
+  
+traduzir_permissoes.short_description = "Traduzir Permissões"
+class Permission_Admin(admin.ModelAdmin):
+    actions = [traduzir_permissoes]
+    
 admin.site.register(Compromisso, CompromissoAdmin)
 admin.site.register(Local)
 admin.site.register(Convidado, ConvidadoAdmin)
 admin.site.register(Anotacao_Compromisso, Anotacao_CompromissoAdmin)
+admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)
+# admin.site.unregister(Permission)
+admin.site.register(Permission,Permission_Admin)
